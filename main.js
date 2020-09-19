@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu } = require("electron");
 const shell = require("electron").shell;
+const ipc = require("electron").ipcMain;
 
 function createWindow() {
   // Create the browser window.
@@ -17,6 +18,9 @@ function createWindow() {
 
   // Open the DevTools.
   win.webContents.openDevTools();
+  ipc.on("update-notify-value", function (event, arg) {
+    win.webContents.send("targetPriceVal", arg);
+  });
 }
 
 // This method will be called when Electron has finished
